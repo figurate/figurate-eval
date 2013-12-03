@@ -15,3 +15,10 @@ may apply to a more general context in the future..
 * JSON - parse, generate
 * HTTP - parse and generate requests
 * ...
+
+
+## Concepts:
+
+* Evaluation - groups an input and a result. e.g. Eval[input: 2 + 2, result: 4]
+* Synonym - an alias for an input template. e.g. Syn[name: 'avg', input: { it.sum() / it.size() }]
+* ...
