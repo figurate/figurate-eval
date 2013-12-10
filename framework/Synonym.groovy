@@ -1,9 +1,9 @@
 class Synonym {
 
-    String name
-    def input
+    String description
+    Closure expression
 
     String toString() {
-        return name
+        return description
     }
 }

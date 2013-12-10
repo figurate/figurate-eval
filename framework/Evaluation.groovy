@@ -1,3 +1,5 @@
+import groovy.xml.MarkupBuilder
+
 import javax.swing.JTable
 import java.awt.Image
 import java.awt.image.ImageProducer
@@ -8,25 +10,44 @@ class Evaluation {
     def result
 
     String toString() {
+        MarkupBuilder html = []
         if (result) {
             if (result instanceof Exception) {
-                return "<html><p>${input}</p><p style='font-style:italic;color:silver'>Resulted in exception: ${result}</p></html>"
+                html.html {
+                    p(input)
+                    p(style: 'font-style:italic;color:silver', "Resulted in exception: ${result}")
+                }
             }
             else if (result instanceof Closure) {
-                return "<html><p>${input}</p><p style='font-style:italic;color:silver'>Resulted in closure</p></html>"
+                html.html {
+                    p(input)
+                    p(style: 'font-style:italic;color:silver', "Resulted in closure: ${result}")
+                }
             }
             else if (result instanceof ImageProducer || result instanceof Image) {
-                return "<html><p>${input}</p><p style='font-style:italic;color:silver'>Resulted in image</p></html>"
+                html.html {
+                    p(input)
+                    p(style: 'font-style:italic;color:silver', "Resulted in image: ${result}")
+                }
             }
             else if (result instanceof JTable) {
-                return "<html><p>${input}</p><p style='font-style:italic;color:silver'>Resulted in table</p></html>"
+                html.html {
+                    p(input)
+                    p(style: 'font-style:italic;color:silver', "Resulted in table: ${result}")
+                }
             }
             else {
-                return "<html><p>${input}</p><p> = ${result}</p></html>"
+                html.html {
+                    p(input)
+                    p(" = ${result}")
+                }
             }
         }
         else {
-            return "<html><p>${input}</p><p style='font-style:italic;color:silver'>No Result</p></html>"
+            html.html {
+                p(input)
+                p('No Result')
+            }
         }
     }
 }
