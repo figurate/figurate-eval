@@ -7,7 +7,10 @@ import javax.swing.ImageIcon
 import java.awt.Toolkit
 import java.awt.image.ImageProducer
 
-@Grab(group='ch.qos.logback', module='logback-classic', version='1.0.13')
+@Grapes([
+    @Grab(group='ch.qos.logback', module='logback-classic', version='1.0.13'),
+    @GrabConfig(systemClassLoader=true)
+])
 @Slf4j
 class Evaluator {
 
@@ -26,11 +29,21 @@ class Evaluator {
         binding.variables._xml = new XmlSlurper()
         binding.variables._json = new JsonSlurper()
 
+        binding.variables._ws = [:]
+        binding.variables._ws.currency = new WebService(wsdl: "http://www.webservicex.net/CurrencyConvertor.asmx?WSDL")
+        binding.variables._ws.market = new WebService(wsdl: "http://www.webservicex.net/stockquote.asmx?WSDL")
+        binding.variables._ws.whois = new WebService(wsdl: "http://www.webservicex.net/whois.asmx?WSDL")
+        binding.variables._ws.units = new WebService(wsdl: "http://www.webservicex.net/ConvertCooking.asmx?WSDL")
+        binding.variables._ws.geo = new WebService(wsdl: "http://www.webservicex.net/geoipservice.asmx?WSDL")
+        binding.variables._ws.barcode = new WebService(wsdl: "http://www.webservicex.net/barcode.asmx?WSDL")
+
         loadMacros()
 
     }
 
     def evaluate = { expression ->
+        log.debug "Evaluating: $expression"
+
         def result = shell.evaluate(new GroovyCodeSource(expression, 'EvaluationScripts', '/evaluations/script'))
         evaluations << new Evaluation(input: expression, result: OutputTransforms.transformResult(result, shell.context._outputTransforms))
         evaluations[-1].result
@@ -94,7 +107,7 @@ class Evaluator {
 //                    evaluate("${synonym.key} = ${synonym.value.expression}")
 //                }
 //                catch (Exception e) {
-////                    log.log unsuccessful_eval, e
+//                    log.log unsuccessful_eval, e
 //                    log.info 'Unsuccessful evaluation: ' + e.message
 //                }
                 binding.variables[synonym.key] = synonym.value.expression

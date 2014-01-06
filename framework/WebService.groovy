@@ -1,7 +1,7 @@
 import groovyx.net.ws.WSClient
 
 @Grapes([
-    @Grab(group='org.codehaus.groovy.modules', module='groovyws', version='0.5.1')
+    @Grab(group='org.codehaus.groovy.modules', module='groovyws', version='0.5.2')
 ])
 class WebService {
     String name
