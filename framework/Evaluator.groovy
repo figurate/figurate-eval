@@ -7,10 +7,6 @@ import javax.swing.ImageIcon
 import java.awt.Toolkit
 import java.awt.image.ImageProducer
 
-@Grapes([
-    @Grab(group='ch.qos.logback', module='logback-classic', version='1.0.13'),
-    @GrabConfig(systemClassLoader=true)
-])
 @Slf4j
 class Evaluator {
 
@@ -126,24 +122,5 @@ class Evaluator {
         evaluations.each {
             println "${++i}: [$it.input = $it.result]"
         }
-    }
-
-    static void main(def args) {
-        CliBuilder cli = [usage: 'Evaluator [options] [<expression>]']
-        cli.with {
-            c longOpt: 'console', 'console mode'
-            h longOpt: 'help', 'usage information'
-        }
-
-        def options = cli.parse(args)
-
-        Evaluator evaluator = []
-
-        if (options.c) {
-            evaluator.console()
-        } else if (options.h) {
-            cli.usage()
-        }
-//        println new Evaluator().evaluate(args[0])
     }
 }
