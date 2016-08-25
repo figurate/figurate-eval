@@ -46,4 +46,11 @@ Enclosures wrap an evaluation to provide support for external management of eval
 * Synonym - an alias for an input template. e.g. Syn[name: 'avg', input: { it.sum() / it.size() }]
 * ...
 
+## Usage
 
+The recommended way to use figurate-eval is to fork this project and include your fork in dependent projects using Git submodules. The benefits of this are:
+
+* You can easily keep the scripts updated
+* Any changes/improvements can be easily fed back to the project using pull requests
+* You maintain your scripts in a central location that avoids duplication across projects
+* 
